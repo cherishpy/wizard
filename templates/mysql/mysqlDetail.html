@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static 'user/css/database.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+<ol class="breadcrumb">
+  <li><a href="/mysql/cluster_list">mysql</a></li>
+  <li><a href="/mysql/mysqlDetail/{{ clusterInfo.clusterName }}/?navStatus=baseInfo">{{ clusterInfo.clusterName }}</a></li>
+  <li class="active">Data</li>
+</ol>
+
+<h3> 集群名称：{{ clusterInfo.clusterName }} </h3>
+
+{%  if clusterInfo.status %}
+    <h4 class="t_warn">警告信息：{{ clusterInfo.status }} </h4>
+{% endif %}
+
+<p>注意：自动获取从库 会删除当前表里面存放的从库，并从主库重新获取并自动添加</p>
+{%  if clusterInfo.remarks %}
+<p>备注: {{ clusterInfo.remarks }}</p>
+{% endif %}
+
+
+
+<a class="btn btn-info " href="javascript:location.reload();">刷新页面</a>
+<a class="btn btn-info btn-large" href="/mysql/auto_add_slave/{{ clusterInfo.clusterName }}">自动获取从库</a>
+<p></p>
+<p></p>
+
+<br>
+
+<div class="nav nav-tabs row">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>host</th>
+                <th>port</th>
+                <th>rule</th>
+                <th>同步主库</th>
+                <th>主从状态</th>
+                <th>主从延迟</th>
+                <th>version</th>
+                <th>status</th>
+                {% if user.username == 'admin' %}
+                    <th>操作</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for node in nodesInfo %}
+            <tr>
+                <td>{{ node.id }}</td>
+                <td>{{ node.dbhost }}</td>
+                <td>{{ node.dbport }}</td>
+                <td>{{ node.dbrule }}</td>
+                <td>{{ node.Master_Host }}:{{ node.Master_Port }}</td>
+                <td>{{ node.repl }}</td>
+                <td>{{ node.seconds }}</td>
+                <td>{{ node.version }}</td>
+                <td>{{ node.status }}</td>
+                {% if user.username == 'admin' %}
+                    <td class="center">
+                        <a class="btn btn-xs  glyphicon glyphicon-eye-open" href="/mysql/node_info/{{ node.id }}"></a>
+                        <a class="t_eidt" href="#"></a>
+                        <a class="t_delet" href="/mysql/node_dele/{{ node.id }}"></a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <h4 class="t_tl"> {{ clusterInfo.environment }}  环境 {{ clusterInfo.clusterName }} 集群信息</h4>
+    <table class="table table-bordered table-hoveru" >
+        <tbody>
+            <tr>
+              <td class="col-xs-6 col-sm-4">所属业务线 :   {{ clusterInfo.cluster_service }}</td>
+              <td class="col-xs-6 col-sm-4">开发负责人 :   {{ clusterInfo.cluster_development }}</td>
+            </tr>
+            <tr>
+              <td class="col-xs-6 col-sm-4">数据总大小 :   {{ clusterInfo.data_size }}</td>
+              <td class="col-xs-6 col-sm-4">索引总大小 :   {{ clusterInfo.index_size }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>数据库列表 ：{{ clusterInfo.dbs }} </h4>
+
+    <br>
+  <h4 class="t_tl">用户及权限信息</h4>
+  <table class="table table-bordered table-hover">
+     <thead>
+         <tr>
+             <th>user</th>
+             <th>host</th>
+             <th>授权信息</th>
+         </tr>
+     </thead>
+     <tbody>
+     {% for grantdict in clusterInfo.grantslist %}
+         <tr>
+             <td>{{ grantdict.user }}</td>
+             <td>{{ grantdict.host }}</td>
+             <td>
+             {% for grant in grantdict.grants %}
+             {{grant}}
+             <br>
+             {% endfor %}
+             </td>
+         </tr>
+     {% endfor %}
+     </tbody>
+  </table>
+
+</div>
+
+{% endblock content %}
+

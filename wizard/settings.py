@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'dbconfig',
     'conf',
     'bakconfig',
+    'mysql',
 ]
 
 MIDDLEWARE = [

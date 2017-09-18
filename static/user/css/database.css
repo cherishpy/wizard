@@ -1,0 +1,27 @@
+.t_find{width: 11px;height: 12px;display: inline-block;vertical-align: middle;background:url(../../img/t_icon.png);background-position: -54px 0;margin-right: 18px;}
+.t_eidt{width: 14px;height: 14px;display: inline-block;vertical-align: middle;background:url(../../img/t_icon.png);background-position: -66px 0;margin-right: 16px;}
+.t_delet{width: 12px;height: 12px;display: inline-block;vertical-align: middle;background:url(../../img/t_icon.png);background-position: -83px 0;}
+
+.t_table{margin:0 20px 42px;
+        table{width: 100%;border-top:2px solid #df6c51;}
+        th{height: 42px;line-height: 42px;background:#f5f5f5;font-size: 14px;color: #a0a0a0;text-align: center;border-bottom: 2px solid #ececec;}
+        tr{background:#f7f7f7;
+                &.t_color{background:#fbfbfb;}
+        }
+        td{border-bottom:1px solid #ececec;height: 46px;line-height: 46px;text-align: center;font-size: 12px;color: #666;}
+}
+
+.t_tl{
+	margin-top: 20px;
+	margin-bottom: -1px;
+    height: 40px;
+    background: #F5f6FA;
+    line-height: 38px;
+    position: relative;
+    border-left: 4px solid #DA70D6 ;
+}
+
+.t_info{text-indent:50px;}
+
+.t_warn{color:red;}
+

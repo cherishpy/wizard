@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static 'user/css/database.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+<ol class="breadcrumb">
+  <li><a href="/mysql/cluster_list">mysql</a></li>
+  <li><a href="/mysql/mysqlDetail/{{ cluster_name }}/?navStatus=baseInfo">{{ cluster_name }}</a></li>
+  <li><a href="/mysql/node_info/{{ id }}">{{ id }}</a></li>
+  <li class="active">Data</li>
+</ol>
+
+<div class="nav nav-tabs  ">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>参数名</th>
+                <th>运行参数值</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for variable in variablesList %}
+            <tr>
+                <td>{{ variable.Variable_name }}</td>
+                <td>{{ variable.Value }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
+

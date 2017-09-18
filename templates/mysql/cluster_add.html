@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<form role="form" action='/mysql/cluster_add/' method="post" id="signupForm">
+    {% csrf_token %}
+    <div class="t_box">
+        <h4>实例信息添加</h4>
+        <div class="l_form" id="InputsWrapper">
+            <dl>
+                <dt>业务线 * </dt>
+                <div class="checkbox row">
+                    {% for service in allServiceName %}
+                        <label class="checkbox-inline col-xs-2">
+                            <input type="checkbox" name="service_name{{forloop.counter}}" value="{{ service.service_name }}" {% if service.service_name in  alreadyService  %}  checked="checked" {% endif %}>{{ service.service_name }} 业务线</option>
+                        </label>
+                        <input id="serviceNum"  type="text" value='{{forloop.counter}}' name="serviceNum" style='display:none'>
+                    {% endfor %}
+                </div>
+                <dt>环境 * </dt>
+                <div class="form-group">
+                    <select id="environment" name="environment" class="selectpicker show-tick form-control bs-select-hidden" required="required">
+                    {% if info %} 
+                        <option value="{{ environmentId }}"  selected="selected">{{ info.environment }}</option>
+                    {% else %}
+                        <option  disabled="" selected="selected">请选择数据库所在环境:</option>
+                    {% endif %}
+                        <option value=1>线上</option>
+                        <option value=2>预发</option>
+                        <option value=3>测试</option>
+                    </select>
+                </div>
+            </dl>
+            <dl>
+                <dt>集群名称 *</dt>
+                <dd>
+                    <input id="id"  type="text" value='{{ info.id }}' name="id" style='display:none' >
+                    <input id="cluster_name" class="form-control" type="text" name="cluster_name" required="required" {% if info %} value='{{ info.cluster_name }}' {% else %} placeholder="集群名称" {% endif %}>
+                </dd>
+            </dl>
+            <dl>
+                <dt>登录用户 *</dt>
+                <dd>
+                    <input id="cluster_user" class="form-control" type="text" name="cluster_user" required="required" {% if info %} value='{{ info.cluster_user }}' {% else %} placeholder="集群管理用户，默认通用账号" {% endif %}>
+                </dd>
+            </dl>
+            <dl>
+                <dt>登录密码 *</dt>
+                <dd>
+                    <input id="cluster_passwd" class="form-control" type="password" name="cluster_passwd" required="required" {% if info %} value='{{ info.cluster_passwd }}' {% else %} placeholder="用户密码，默认通用账号" {% endif %}>
+                </dd>
+            </dl>
+            <dl>
+                <dt>开发负责人 *</dt>
+                <dd>
+                    <input id="cluster_development" class="form-control" type="text" name="cluster_development" required="required" {% if info %} value='{{ info.cluster_development }}' {% else %} placeholder="开发负责人" {% endif %}>
+                </dd>
+            </dl>
+            <dl>
+                <dt>备注信息</dt>
+                <dd>
+                    <input id="remarks" class="form-control" type="text" name="remarks" {% if info %} value='{{ info.remarks }}' {% else %} placeholder="集群备注信息，非必填项" {% endif %}>
+                </dd>
+            </dl>
+             <dl>
+                <dt>主库信息 *：</dt>
+                <table>
+                    <tr>
+                        <td>ip地址 : </td>
+                        <td style="padding-left:10px;">
+                        <input id="dbhost" class="form-control" type="text" name="dbhost" required="required" {% if info %} value='{{ info.dbhost }}' 
+                            {% else %} placeholder="数据库host地址" {% endif %}  ></td>
+                        <td style="padding-left:20px;">端口 : </td>
+                        <td style="padding-left:10px;">
+                        <input id="dbport" class="form-control" type="text" name="dbport" required="required"  {% if info %} value='{{ info.dbport }}'
+                            {% else %} placeholder="端口" {% endif %} ></td>
+                        {% if info.id %}
+                            <td style="padding-left:20px;">角色 : </td>
+                            <td style="padding-left:10px;">
+                            <input id="dbrule" class="form-control" type="text" name="dbrule" required="required"  value='{{ info.dbrule }}' ></td>
+                        {% else %}
+                            <td style="padding-left:20px;">角色 : </td>
+                            <td style="padding-left:10px;">
+                            <input id="dbrule" class="form-control" type="text" name="dbrule" required="required"  value='master' readonly ></td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </dl>
+            <div class="l_form_btn clearfix">
+                <button class="btn btn-primary" type="submit" >保存</button>
+                <button type="reset" class="btn btn-warning">清空选项</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}
+
+        <!--
+            <dl>
+                <dt>业务线 * </dt>
+                <div class="form-group">
+                    <select id="service_name" name="service_name" class="selectpicker show-tick form-control bs-select-hidden" required>
+                        {% if info %} 
+                            <option  value="{{ info.service_name }}"  selected="selected">{{ info.service_name }}</option>
+                        {% else %}
+                            <option  disabled="" selected="selected">请选择集群所属业务线:</option>
+                        {% endif %}
+                        {% for service in allServiceName %}
+                            <option type="checkbox"  value="{{ service.service_name }}">{{ service.service_name }} 业务线</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </dl>
+        -->
+
+

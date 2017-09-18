@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-list-alt"></i> mysql集群管理
+            </h3>
+        </div>
+        <div class="panel-body">
+            <!--面版内容-->
+            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                <thead>
+                <tr>
+                    <th>实例名称</th>
+                    <th>ip地址</th>
+                    <th>端口</th>
+                    <th>角色</th>
+                    <th>业务线</th>
+                    <th>环境</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for db in dbs %}
+                    <tr>
+                        <td>
+                         <a href="/mysql/mysqlDetail/{{ db.cluster_name }}/">{{ db.cluster_name}}</a>
+                        </td>
+                        <td>{{ db.dbhost }}</td>
+                        <td>{{ db.dbport }}</td>
+                        <td>{{ db.dbrule }}</td>
+                        <td>{{ db.cluster_service }}</td>
+                        <td>
+                            {% for key, value in ENVIRONMENT_STATUS.items %}
+                                {% if key == db.environment %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td>当前暂无实例</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div style="text-align:center;">
+            <ul class="pagination" style="display:inline-block;">
+                <li>
+                 <a href="/mysql/mysql_list/?pageNo=0&navStatus={{navStatus}}">首页</a>
+                </li>
+                <li>
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"-1"}}&navStatus={{navStatus}}">前一页</a>
+                </li>
+                <li class="active">
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"0"}}&navStatus={{navStatus}}">{{pageNo|add:"1"}}</a>
+                </li>
+                <li>
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"1"}}&navStatus={{navStatus}}">{{pageNo|add:"2"}}</a>
+                </li>
+                <li>
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"2"}}&navStatus={{navStatus}}">{{pageNo|add:"3"}}</a>
+                </li>
+                <li>
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"3"}}&navStatus={{navStatus}}">{{pageNo|add:"4"}}</a>
+                </li>
+                <li>
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"4"}}&navStatus={{navStatus}}">{{pageNo|add:"5"}}</a>
+                </li>
+                <li>
+                     <a href="/mysql/mysql_list/?pageNo={{pageNo|add:"1"}}&navStatus={{navStatus}}">后一页</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
